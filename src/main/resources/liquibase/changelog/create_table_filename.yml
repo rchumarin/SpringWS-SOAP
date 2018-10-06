@@ -1,0 +1,113 @@
+databaseChangeLog:
+# sequences ------------------------------------------------------------------------------------------------------------
+  - changeSet:
+      id: 011018_2245
+      author: ChumarinRR
+      comment: Creates filename_seq sequence
+      preConditions:
+        - onFail: MARK_RAN
+          onFailMessage: filename_seq already exists
+          not:
+            sequenceExists:
+              sequenceName: filename_seq
+      changes:
+        - createSequence:
+            sequenceName: filename_seq
+            cacheSize: 2000
+            cycle: false
+            incrementBy: 1
+            maxValue: 9999999999999999999999999999
+            minValue: 1
+            ordered: false
+            startValue: 1
+#table ---------------------------------------------------------------------------------------------------------------
+  - changeSet:
+      id: 011018_2246
+      author: ChumarinRR
+      comment: Create table for FILENAME
+      preConditions:
+        onFail: MARK_RAN
+        onFailMessage: Table FILENAME already exists
+        and:
+          - not:
+              tableExists:
+                tableName: FILENAME
+      changes:
+        - createTable:
+            tableName: FILENAME
+            remarks: Таблица содержащая информацию о найденных числах и файлах
+            columns:
+              - column:
+                  name: ID
+                  type: NUMBER(*,0)
+                  remarks: Идентификатор записи
+              - column:
+                  name: CODE
+                  constraints:
+                     nullable: false
+                  type: VARCHAR(50)
+                  remarks: Код выполнения программы
+              - column:
+                  name: NUM
+                  constraints:
+                     nullable: false
+                  type: NUMBER(*,0)
+                  remarks: Число, переданное на вход
+              - column:
+                  name: FILENAMES
+                  type: VARCHAR(100)
+                  remarks: Имена файлов, в которых удалось найти число
+              - column:
+                  name: ERROR
+                  type: VARCHAR(100)
+                  remarks: Описание ошибки, в случае её возникновения
+        - addPrimaryKey:
+            columnNames: ID
+            constraintName: PK_FILENAME
+            tableName: FILENAME
+      rollback:
+        - dropTable:
+            tableName: FILENAME
+#indexes --------------------------------------------------------------------------------------------------------------
+  - changeSet:
+      id: 011018_2247
+      author: ChumarinRR
+      comment: Create IDX_FILENAMES
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          indexExists:
+            indexName: IDX_FILENAMES
+      changes:
+      - createIndex:
+          columns:
+          - column:
+              name: FILENAMES
+          indexName: IDX_FILENAMES
+          tableName: FILENAME
+          unique: true
+      rollback:
+          - dropIndex:
+              tableName: FILENAME
+              indexName: IDX_FILENAMES
+  - changeSet:
+      id: 011018_2248
+      author: ChumarinRR
+      comment: Create IDX_NUM
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          indexExists:
+            indexName: IDX_NUM
+      changes:
+      - createIndex:
+          columns:
+          - column:
+              name: NUM
+          indexName: IDX_NUM
+          tableName: FILENAME
+          unique: true
+      rollback:
+          - dropIndex:
+              tableName: FILENAME
+              indexName: IDX_NUM

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://chumarin.ru/ws/findNumber"
+           targetNamespace="http://chumarin.ru/ws/findNumber" elementFormDefault="qualified">
+
+    <xs:element name="getFilenameRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="number" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getFilenameResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Result" type="tns:Result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="Result">
+        <xs:sequence>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="filenames" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="error" type="xs:string">
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

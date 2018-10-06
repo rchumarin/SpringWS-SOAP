@@ -1,0 +1,3 @@
+server:
+    fileSize: 0.2
+    fileDir: "src/test/resources/file"

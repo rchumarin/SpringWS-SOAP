@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://chumarin.ru/ws/findNumber">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getFilenameRequest>
+            <gs:number>12222</gs:number>
+        <gs:number>12222</>
+        </gs:getFilenameRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
